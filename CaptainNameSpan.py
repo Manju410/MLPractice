@@ -1,3 +1,7 @@
+'''
+Printing Captain Name and Spain
+'''
+
 import re
 Captains = open('C:\Manjunath\Personal\Manju\pi\Captains.txt', 'r').read()
 SplitCaptain = Captains.split('\n')
