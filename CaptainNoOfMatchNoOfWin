@@ -1,0 +1,14 @@
+''' Print Captain Name, Total No of Matches, No of Matches Won '''
+import re
+Captains = open('C:\Manjunath\Personal\Manju\pi\Captains.txt', 'r').read()
+SplitCaptain = Captains.split('\n')
+
+def FunctionToGetCaptainsMatchWon(SplitCaptain):
+    for name in SplitCaptain:
+        splitname= name.split(',')
+        matchObj = re.match("^Player", name)
+        if len(splitname)>4 and not matchObj:
+            print ("Captain:"+splitname[0]+", Match Play:"+splitname[2] +", Match Won:"+splitname[3])
+            
+            
+FunctionToGetCaptainsMatchWon(SplitCaptain)
