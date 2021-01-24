@@ -1,0 +1,28 @@
+''' Top 5 Captains Played more than 5 Matches'''
+import re
+Captains = open('C:\Manjunath\Personal\Manju\pi\Captains.txt', 'r').read()
+SplitCaptain = Captains.split('\n')
+
+Captainlist ={}
+TopCaptains=[]
+
+def FunctionToGetCaptainsPlayFiveMatches(SplitCaptain):
+    for name in SplitCaptain:
+        splitname=name.split(',')
+        matchObj = re.match("^Player", name)
+        if not matchObj:
+            match= int(splitname[2])
+            if match>=5:
+                Captainlist.update({splitname[0]:match})
+    return FunctionToGetTopCaptains(Captainlist)
+
+def FunctionToGetTopCaptains(Captainlist):
+    count=0
+    for key in sorted(Captainlist.values() ,  reverse= True):
+        if count==5:
+            break
+        TopCaptains.append(key)
+        count+=1
+    return TopCaptains
+    
+FunctionToGetCaptainsPlayFiveMatches(SplitCaptain)
