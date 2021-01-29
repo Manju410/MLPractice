@@ -97,3 +97,77 @@ newdf= dfweather.dropna()
 newdf= dfweather.dropna(how="all") # droping row contains all na values in row
 
 newdf= dfweather.dropna(thresh=1) # droping null values with particular rows
+
+
+# Replacing wrong data to nan values
+dfweather= pd.read_csv("C:\Manjunath\Personal\Manju\Pandas\csv\replace.csv")
+dfweather
+newdf= dfweather.replace([-999,-8888], np.Nan)
+
+# Replacing wrong data by regular expression
+newdf= dfweather.replace({
+    "temprature":"[A-Za-z]+",
+    "windspeed":"[A-Za-z]+"
+},'', regex=True)
+newdf
+
+# Group By method
+# Grouping table by city wise
+newyorkweather= pd.read_csv("C:\Manjunath\Personal\Manju\Pandas\csv\groupby.csv")
+
+g= newyorkweather.groupby("city")
+for city,citydf in g:
+    print(city)
+    print(citydf)
+ 
+# groupin by mumbai city
+g.get_group("mumbai")
+g.max() # maximum value in group
+g.mean() # average value in group
+
+
+# Concatenating two dataframes
+# india weather dataframe
+india_weather=pd.DataFrame({
+    "city":["mumbai","delhi","banglore"],
+    "temprature":[32,45,30],
+    "humidity":[80,60,70]
+})
+
+#us weather dataframe
+us_weather=pd.DataFrame({
+    "city":["newyork","chicago","orlando"],
+    "temprature":[21,10,30],
+    "humidity":[70,50,80]
+})
+
+df=pd.concat([india_weather,us_weather])
+df=pd.concat([india_weather,us_weather], ignore_index=True)
+df=pd.concat([india_weather,us_weather],keys=["india","us"])
+df.loc["india"]
+
+
+# Merging two Data Frames
+df=pd.DataFrame({"cituy":["newyork","chikogo","canada"],"temp":[56,76,34]})
+df1=pd.DataFrame({"cituy":["newyork","chikogo","canada"],"temp":[56,76,34]})
+pd.merge(df,df1,on="cituy")
+
+
+# Pivot Table
+pivotdf= pd.read_csv("C:\Manjunath\Personal\Manju\Pandas\csv\groupby.csv")
+pivotdf.pivot(index="day", columns="city",values="windspeed")
+pivotdf.pivot(index="windspeed", columns="city")
+pivotdf.pivot_table(index="city",columns="day",aggfunc="sum")
+pivotdf.pivot_table(index="city",columns="day",margins=True)
+
+
+#Merge
+
+meltdf= pd.read_csv("C:\Manjunath\Personal\Manju\Pandas\csv\melt.csv")
+df1=pd.melt(meltdf,id_vars=["day"])
+df1[df1["variable"]=="banglore"]
+
+# stack and unstack
+satckdf= pd.read_csv("C:\Manjunath\Personal\Manju\Pandas\csv\stack.csv",header=[0,1])
+satckdf.stack()
+satckdf.stack(level=0)
