@@ -67,3 +67,33 @@ dfex= pd.read_excel("C:\Manjunath\Personal\Manju\Pandas\excel.xlsx","Sheet1", co
 pd.to_excel("new.xlsx",sheet_name="stocks", index=False)
 
 pd.to_excel("new.xlsx",sheet_name="stocks", index=False,startrow=3,startcol=2) # writing from particular row and col
+
+
+#Handling null values by fillna method
+# parsedates methode will convert to datetime
+dfweather= pd.read_csv("C:\Manjunath\Personal\Manju\Pandas\csv\missing_data.csv", parse_dates=["day"])
+
+dfweather.set_index("day", inplace=True) # setting day column as index value
+dffill=dfweather.fillna(0) # filling null values to 0 in dataframe
+
+#filling null values to 0 and words by passing into dictionary
+dfnew=dfweather.fillna({
+    "temprature":0,
+    "windspeed":0,
+    "event":"No event"
+})
+
+# ffill method will fill in forward steps
+newdf= dfweather.fillna(method="ffill",axis="columns") # method="bfill" backword filling
+
+#limit will fill the na values to one step forword
+newdf= dfweather.fillna(method="ffill", limit=1)
+
+# method time and interpolate will fill the null values by time analysis
+newdf= dfweather.interpolate(method="time") # default method is linear
+
+# to drop the null values
+newdf= dfweather.dropna()
+newdf= dfweather.dropna(how="all") # droping row contains all na values in row
+
+newdf= dfweather.dropna(thresh=1) # droping null values with particular rows
